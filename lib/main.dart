@@ -6,6 +6,7 @@ import 'package:notes_app/views/notes_view.dart';
 import 'package:notes_app/views/widgets/simple_bloc_observer.dart';
 
 import 'constant.dart';
+import 'cubits/notes cubit/notes_cubit.dart';
 import 'models/node_model.dart';
 
 void main() async {
@@ -29,6 +30,7 @@ class NotesApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AddNoteCubit(),
         ),
+        BlocProvider(create: (context) => NotesCubit(),),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
