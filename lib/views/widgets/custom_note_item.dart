@@ -1,29 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:notes_app/models/node_model.dart';
 import 'package:notes_app/views/widgets/edit_note.dart';
 
 class NotesItem extends StatelessWidget {
-  const NotesItem({super.key});
-
+  const NotesItem({super.key, required this.note});
+  final NodeModel note;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>const EditNoteView(),));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const EditNoteView(),
+            ));
       },
       child: Container(
         padding: EdgeInsets.only(top: 24, bottom: 24, left: 16),
         decoration: BoxDecoration(
-          color: Color(0xffffcc80),
+          color: Color(note.color),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             ListTile(
-              title: const Text(
-                'Flutter Tips',
+              title: Text(
+                note.title,
                 style: TextStyle(
                   fontSize: 26,
                   color: Colors.black,
@@ -32,7 +37,7 @@ class NotesItem extends StatelessWidget {
               subtitle: Padding(
                 padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                 child: Text(
-                  'build your career with Mohammed Almahmoud',
+                  note.subTitle,
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.5),
                     fontSize: 18,
@@ -48,7 +53,7 @@ class NotesItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 24),
               child: Text(
-                'May21,2023',
+                note.date.substring(0,16),
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.4), fontSize: 16),
               ),
