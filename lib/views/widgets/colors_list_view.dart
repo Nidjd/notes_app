@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/add_notes_cubit/cubit/add_note_cubit.dart';
+
+import '../../constant.dart';
 
 class ColorItem extends StatelessWidget {
   const ColorItem({super.key, required this.isActive, required this.color});
@@ -9,7 +13,7 @@ class ColorItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return isActive
-        ?  CircleAvatar(
+        ? CircleAvatar(
             backgroundColor: Colors.white,
             radius: 38,
             child: CircleAvatar(
@@ -17,7 +21,7 @@ class ColorItem extends StatelessWidget {
               radius: 34,
             ),
           )
-        :  CircleAvatar(
+        : CircleAvatar(
             backgroundColor: color,
             radius: 38,
           );
@@ -33,30 +37,28 @@ class ColorsListView extends StatefulWidget {
 
 class _ColorsListViewState extends State<ColorsListView> {
   int currentIndex = 0;
-  List<Color> colors = const [
-    Color(0xffB5BA72),
-    Color(0xff99907D),
-    Color(0xff7D6F86),
-    Color(0xff585191),
-    Color(0xff4F359B),
-  ];
+ 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: colors.length,
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (context, index) => Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 6,
-        ),
-        child: GestureDetector(
-          onTap: () {
-            currentIndex = index;
-            setState(() {});
-          },
-          child: ColorItem(
-            color: colors[index],
-            isActive: index == currentIndex,
+    return Container(
+      height: 100,
+      child: ListView.builder(
+        itemCount: kColors.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 6,
+          ),
+          child: GestureDetector(
+            onTap: () {
+              currentIndex = index;
+              BlocProvider.of<AddNoteCubit>(context).color = kColors[index];
+              setState(() {});
+            },
+            child: ColorItem(
+              color: kColors[index],
+              isActive: index == currentIndex,
+            ),
           ),
         ),
       ),

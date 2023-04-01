@@ -4,7 +4,9 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/cubits/notes%20cubit/notes_cubit.dart';
 import 'package:notes_app/models/node_model.dart';
+import 'package:notes_app/views/widgets/colors_list_view.dart';
 
+import '../../constant.dart';
 import 'custom_app_bar.dart';
 import 'custom_text_field.dart';
 
@@ -58,7 +60,58 @@ class _EditNoteViewBodyState extends State<EditNoteViewBody> {
               content = value;
             },
           ),
+          const SizedBox(
+            height: 16,
+          ),
+          EditNoteColorsList(
+            note: widget.note,
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class EditNoteColorsList extends StatefulWidget {
+  const EditNoteColorsList({super.key, required this.note});
+
+  final NodeModel note;
+
+  @override
+  State<EditNoteColorsList> createState() => _EditNoteColorsListState();
+}
+
+class _EditNoteColorsListState extends State<EditNoteColorsList> {
+  late int currentIndex;
+  @override
+  void initState() {
+    currentIndex = kColors.indexOf(Color(widget.note.color));
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,
+      child: ListView.builder(
+        itemCount: kColors.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 6,
+          ),
+          child: GestureDetector(
+            onTap: () {
+              currentIndex = index;
+              widget.note.color = kColors[index].value;
+              setState(() {});
+            },
+            child: ColorItem(
+              color: kColors[index],
+              isActive: index == currentIndex,
+            ),
+          ),
+        ),
       ),
     );
   }
